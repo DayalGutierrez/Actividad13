@@ -27,11 +27,21 @@ public:
     void eliminar_inicio();
     void eliminar(size_t p);
 
+    T* buscar(const T &v);
+    Arreglodinamico<T*> buscar_todos(const T &v);
+
+
     size_t size();
 
     T operator[](size_t p)
     {
         return arreglo[p];
+    }
+
+    friend Arreglodinamico<T>& operator <<(Arreglodinamico<T> &a, const T& v){
+        a.insertar_final(v);
+
+        return a;
     }
 };
 
@@ -135,6 +145,35 @@ void Arreglodinamico<T>::eliminar(size_t p){
         arreglo[i] = arreglo[i + 1];
     }
     cont--;
+}
+
+template <class T>
+T* Arreglodinamico<T>::buscar(const T& v){
+    for (size_t i = 0; i < cont; i++)
+    {
+        if(v == arreglo[i]){
+            return &arreglo[i];
+        }
+    }
+    
+    
+    return nullptr;
+}
+
+template <class T>
+Arreglodinamico<T*> Arreglodinamico<T>::buscar_todos(const T& v){
+
+    Arreglodinamico<T*> ptrs;
+
+    for (size_t i = 0; i < cont; i++)
+    {
+        if (v == arreglo[i])
+        {
+            ptrs.insertar_final(&arreglo[i]);
+        }
+    }
+
+    return ptrs; 
 }
 
 template <class T>
